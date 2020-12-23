@@ -520,6 +520,38 @@ class Game {
                     }
                 });
             }
+            // Training
+            var training = addChild(settings, settings.id + "-training", "div");
+            training.classList.add(this.name + "-menu-group");
+            v = addChild(training, training.id + "-heading", "div");
+            v.classList.add(this.name + "-menu-break");
+            v.innerHTML = "Training";
+            // Gravity setting
+            if (true) {
+                var g, e;
+                g = addChild(training, training.id + "-container-0", "div");
+                g.classList.add(this.name + "-menu-keybind-group");
+                e = addChild(g, g.id + "-element-grav", "div");
+                e.classList.add(this.name + "-menu-keybinds-element");
+                e.classList.add(this.name + "-al");
+                v = addChild(e, e.id + "-question", "div");
+                v.classList.add(this.name + "-question");
+                v.classList.add(this.name + "-al");
+                v.classList.add(this.name + "-menu-keybinds-button");
+                v.title = "Turns gravity on or off";
+                v = addChild(e, e.id + "-text", "div");
+                v.classList.add(this.name + "-al");
+                v.innerHTML = "Gravity";
+                v = addChild(e, e.id + "-checkbox", "input");
+                v.type = "checkbox";
+                v.classList.add(this.name + "-ar", this.name + "-menu-keybinds-checkbox");
+                v.checked = this.settings.gravityEnabled;
+                addEvent(v, "change", function(e) {
+                    var board = games[Game.getGameNumber(e.target.id)];
+                    board.settings.gravityEnabled = e.target.checked;
+                    setCookie("settings", JSON.stringify(board.settings), 1000);
+                });
+            }
 
             // menu stuffs
             if (true) {
@@ -1564,6 +1596,7 @@ class Game {
         var settings = {
             das: 125, //
             arr: Math.floor(1000/60),
+            gravityEnabled: true,
             gravityDelay: 1000,
             maxMoves: 20,
             softDropSpeed: 25,
@@ -1601,6 +1634,7 @@ class Game {
             labels: [
                 "das",
                 "arr",
+                "gravityEnabled",
                 "gravityDelay",
                 "maxMoves",
                 "softDropSpeed",
