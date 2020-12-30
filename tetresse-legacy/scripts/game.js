@@ -1533,7 +1533,7 @@ class Game {
 
     nextPiece() {
         if (this.bag.length == 0) {
-            this.bag = Game.shuffle(["i", "j", "l", "o", "s", "t", "z"]);
+            this.bag = Game.shuffle(["i", "j", "l", "o", "s", "t", "z"].filter(p => this.settings.availablePieces.indexOf(p) !== -1));
         }
         return new Piece(this.bag.pop(), this);
     }
