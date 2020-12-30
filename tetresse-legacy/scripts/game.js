@@ -569,7 +569,7 @@ class Game {
             v.setAttribute("for", e.id + "training-mode");
             v.innerHTML = "Mode:";
             s = addChild(d, e.id + "-training-mode", "select");
-            v.name = "training-mode";
+            s.setAttribute("name", "training-mode");
             v = addChild(s, null, "option");
             v.value = "standard";
             v.innerHTML = "Standard";
@@ -583,6 +583,63 @@ class Game {
             addEvent(s, "change", function(e) {
                 var board = games[Game.getGameNumber(e.target.id)];
                 board.settings.trainingMode = e.target.value;
+                setCookie("settings", JSON.stringify(board.settings), 1000);
+            });
+            // Available Pieces
+            e = addChild(g, g.id + "-element-pieces", "div");
+            e.classList.add(this.name + "-menu-dropdown-element");
+            e.classList.add(this.name + "-al");
+            v = addChild(e, e.id + "-question", "div");
+            v.classList.add(this.name + "-question");
+            v.classList.add(this.name + "-al");
+            v.classList.add(this.name + "-menu-keybinds-button");
+            v.title = "Sets the available pieces during play.  Useful for practicing finesse on one or more pieces at a time.";
+            d = addChild(e, e.id + "-text", "div");
+            d.classList.add(this.name + "-al");
+            v = addChild(d, null, "label");
+            v.setAttribute("for", e.id + "training-pieces");
+            v.innerHTML = "Available Pieces:";
+            s = addChild(d, e.id + "-training-pieces", "select");
+            s.setAttribute("name", "training-pieces");
+            s.setAttribute("multiple", "");
+            s.setAttribute("size", "7");
+            s.style['overflow-y'] = "auto";
+            v = addChild(s, null, "option");
+            v.value = "i";
+            v = addChild(s, null, "option");
+            v.value = "j";
+            v = addChild(s, null, "option");
+            v.value = "l";
+            v = addChild(s, null, "option");
+            v.value = "o";
+            v = addChild(s, null, "option");
+            v.value = "s";
+            v = addChild(s, null, "option");
+            v.value = "t";
+            v = addChild(s, null, "option");
+            v.value = "z";
+            function setMultiSelectStyle(option) {
+                if (option.selected) {
+                    option.innerHTML = "&#9745;&nbsp;&nbsp;" + option.value.toUpperCase();
+                } else {
+                    option.innerHTML = "&#9744;&nbsp;&nbsp;" + option.value.toUpperCase();
+                }
+            }
+            for (var i = 0; i < s.options.length; i++) {
+                s.options[i].selected = this.settings.availablePieces.indexOf(s.options[i].value) !== -1
+                setMultiSelectStyle(s.options[i]);
+            }
+            addEvent(s, "change", function(e) {
+                var options = e.target.options;
+                var i, selectedValues = [];
+                for (i = 0; i < options.length; i++) {
+                    if (options[i].selected) {
+                        selectedValues.push(options[i].value);
+                    }
+                    setMultiSelectStyle(options[i]);
+                }
+                var board = games[Game.getGameNumber(e.target.id)];
+                board.settings.availablePieces = selectedValues;
                 setCookie("settings", JSON.stringify(board.settings), 1000);
             });
 
@@ -1664,6 +1721,7 @@ class Game {
                 setCookie("settings", JSON.stringify(this), 1000);
             },
             trainingMode: "standard",
+            availablePieces: ["i", "j", "l", "o", "s", "t", "z"],
             labels: [
                 "das",
                 "arr",
@@ -1682,7 +1740,8 @@ class Game {
                 "playable",
                 "showFinesseErrors",
                 "redoFinesseErrors",
-                "trainingMode"
+                "trainingMode",
+                "availablePieces"
             ]
         };
         return settings;

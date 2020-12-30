@@ -478,6 +478,10 @@ div .shadow {
     margin-bottom: 1%;
 }
 
+.tetresse-menu-dropdown-element label {
+    vertical-align: top;
+}
+
 .tetresse-menu-keybinds-text {
     display:inline;
 }
