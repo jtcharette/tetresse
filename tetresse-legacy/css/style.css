@@ -435,8 +435,8 @@ div .shadow {
 
 .tetresse-menu-keybinds-button {
     display: inline;
-    width: 9%;
-    padding: 1% 1.5% 1% 1.5%;
+    width: 1em;
+    padding: 0.1em 0.15em 0.1em 0.15em;
     position: relative;
     margin-top: 1%;
     border-radius: 20%; 
@@ -458,6 +458,18 @@ div .shadow {
     position: relative;
     display:inline-block;
     width:47%;
+    text-align: center;
+    background: #c5c5c5;
+    border: 1px solid black;
+    border-top:none;
+    border-bottom: none;
+    margin-bottom: 1%;
+}
+
+.tetresse-menu-dropdown-element {
+    position: relative;
+    display:inline-block;
+    width:99%;
     text-align: center;
     background: #c5c5c5;
     border: 1px solid black;

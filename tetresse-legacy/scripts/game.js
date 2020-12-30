@@ -121,7 +121,10 @@ function addEvent(element, eventName, callback) {
 
 function addChild(parent, id, type) {
     var newEle = document.createElement(type);
-    newEle.id = id;
+    if (id) {
+        newEle.id = id;
+    }
+
     parent.appendChild(newEle);
     return newEle;
 }
@@ -548,6 +551,38 @@ class Game {
             addEvent(v, "change", function(e) {
                 var board = games[Game.getGameNumber(e.target.id)];
                 board.settings.gravityEnabled = e.target.checked;
+                setCookie("settings", JSON.stringify(board.settings), 1000);
+            });
+            // Training Mode
+            var d, s;
+            e = addChild(g, g.id + "-element-mode", "div");
+            e.classList.add(this.name + "-menu-dropdown-element");
+            e.classList.add(this.name + "-al");
+            v = addChild(e, e.id + "-question", "div");
+            v.classList.add(this.name + "-question");
+            v.classList.add(this.name + "-al");
+            v.classList.add(this.name + "-menu-keybinds-button");
+            v.title = "Sets the training mode to use for practicing finesse.  Standard = Standard Tetresse behavior.  Target Practice = practice dropping pieces to a designated position and rotation.  Laser Focus = Let auto stacking take over so you can focus on finesse.";
+            d = addChild(e, e.id + "-text", "div");
+            d.classList.add(this.name + "-al");
+            v = addChild(d, null, "label");
+            v.setAttribute("for", e.id + "training-mode");
+            v.innerHTML = "Mode:";
+            s = addChild(d, e.id + "-training-mode", "select");
+            v.name = "training-mode";
+            v = addChild(s, null, "option");
+            v.value = "standard";
+            v.innerHTML = "Standard";
+            v = addChild(s, null, "option");
+            v.value = "target-practice";
+            v.innerHTML = "Target Practice";
+            v = addChild(s, null, "option");
+            v.value = "laser-focus";
+            v.innerHTML = "Laser Focus";  
+            s.value = this.settings.trainingMode;          
+            addEvent(s, "change", function(e) {
+                var board = games[Game.getGameNumber(e.target.id)];
+                board.settings.trainingMode = e.target.value;
                 setCookie("settings", JSON.stringify(board.settings), 1000);
             });
 
@@ -1628,7 +1663,7 @@ class Game {
                 this.keyCodes[number] = key;
                 setCookie("settings", JSON.stringify(this), 1000);
             },
-
+            trainingMode: "standard",
             labels: [
                 "das",
                 "arr",
@@ -1646,7 +1681,8 @@ class Game {
                 "optionsBarVisible",
                 "playable",
                 "showFinesseErrors",
-                "redoFinesseErrors"
+                "redoFinesseErrors",
+                "trainingMode"
             ]
         };
         return settings;
