@@ -281,6 +281,10 @@ class Game {
             }
 
             if (!p.spin) {
+                // TODO: implement "target practice" somewhere here
+                // - Store target location/rotation in Piece class
+                // - Retrieve the ideal finesse with target location/rotation if training mode is set to "target practice"
+
                 var v = s.board.getIdealFinesse(p.piece, p.getLocation()[1], p.getRotation(), p.spin);
                 var optimalWeight = 0.0;
 
@@ -2340,6 +2344,7 @@ class Piece {
         if (!this.displayed) {
             this.displayed = true;
             this.loc = this.getDefaultLoc();
+            // TODO: generate a random target location and rotation here for "target practice"
         }
 
         if (!this.isValidPosition(this.loc, this.pieceLayout)) {
@@ -2362,6 +2367,9 @@ class Piece {
             }
         }
         this.displayShadow();
+        // TODO: display target if training mode is set to "target practice"
+        // - Add css class "target"
+        // - Try using color animation to give target display some pazazz! (try to make it look like a siren): https://www.tjvantoll.com/2012/02/20/css3-color-animations/
     }
 
     displayShadow() {
